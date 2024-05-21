@@ -4,7 +4,14 @@
   "description": "A wrapper library for Pikud Haoref's unofficial alerts API.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "lint": "eslint .",
+    "build": "babel src -d dist",
+    "predeploy": "npm run build",
+    "deploy": "node deployScript.js",
+    "run-example": "node examples/poll.js"
   },
   "repository": {
     "type": "git",
@@ -17,8 +24,12 @@
   },
   "homepage": "https://github.com/eladnava/pikud-haoref-api#readme",
   "dependencies": {
+    "@elastic/elasticsearch": "^8.13.1",
     "co": "^4.6.0",
     "co-request": "^1.0.0",
-    "request": "^2.69.0"
+    "psl": "^1.9.0",
+    "request": "^2.69.0",
+    "uuid": "^9.0.1",
+    "winston": "^3.13.0"
   }
 }
