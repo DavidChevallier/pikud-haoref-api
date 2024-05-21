@@ -17,17 +17,22 @@
     "type": "git",
     "url": "git+https://github.com/eladnava/pikud-haoref-api.git"
   },
-  "author": "Elad Nava <eladnava@gmail.com> (http://eladnava.com)",
+  "author": "Elad Nava <eladnava@gmail.com> (https://eladnava.com)",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/eladnava/pikud-haoref-api/issues"
   },
+  "contributors": [
+    "Elad Nava <eladnava@gmail.com> (https://eladnava.com)",
+    "Noam Hashmonai",
+    "David Chevallier <David@Chevallier.in (https://toolchen.ch)"
+  ],
   "homepage": "https://github.com/eladnava/pikud-haoref-api#readme",
   "dependencies": {
     "co": "^4.6.0",
     "co-request": "^1.0.0",
     "psl": "^1.9.0",
-    "request": "^2.88.2", // use axios
+    "request": "^2.88.2",
     "uuid": "^9.0.1",
     "winston": "^3.13.0"
   }

@@ -1,7 +1,7 @@
 ---
 services:
   pikud-haoref-api:
-    image: dchevallier/pikud-haoref-api:test_001
+    image: dchevallier/pikud-haoref-api:test_002
     build: .
     container_name: pikud-haoref-api
     hostname: pikud-haoref-api
