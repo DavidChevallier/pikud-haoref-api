@@ -1,0 +1,8 @@
+---
+title: "Dokumentation für Städtedatenverarbeitung"
+author: "Ihr Name"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document: default
+  html_document: default
+---

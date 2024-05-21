@@ -1,50 +1,37 @@
-// Replace with require('logger') if the package resides in node_modules
-const logger = require('../logger'); 
-
-// Replace with require('pikud-haoref-api') if the package resides in node_modules
-var pikudHaoref = require('../index');
+const logger = require('../logger');
+const pikudHaoref = require('../index');
 
 // Set polling interval in millis
-var interval = process.env.POLL_INTERVAL || 5000;
+const interval = process.env.POLL_INTERVAL || 5000;
 
 // Keep track of recently alerted cities to avoid notifying multiple times for the same alert
-var recentlyAlertedCities = {};
+const recentlyAlertedCities = {};
 
 // Define polling function
-var poll = function () {
+const poll = async function () {
     // Optional Israeli proxy if running outside Israeli borders
 
     // Set proxy URL, user and password from environment variables
-    var proxyUrl = process.env.PROXY_URL;
-    var proxyUser = process.env.PROXY_USER;
-    var proxyPassword = process.env.PROXY_PASSWORD;
+    const proxyUrl = process.env.PROXY_URL;
+    const proxyUser = process.env.PROXY_USER;
+    const proxyPassword = process.env.PROXY_PASSWORD;
 
     // Construct proxy string
-    var proxy = proxyUrl && proxyUser && proxyPassword ?
+    const proxy = proxyUrl && proxyUser && proxyPassword ?
         `http://${encodeURIComponent(proxyUser)}:${encodeURIComponent(proxyPassword)}@${proxyUrl}` :
         undefined;
 
     // Construct options object
-    var options = {
-        proxy: proxy
+    const options = {
+        proxy: proxy ? { host: proxyUrl, auth: { username: proxyUser, password: proxyPassword } } : undefined
     };
 
-    // Get currently active alert
-    // Example response:
-    // { 
-    //    type: 'missiles', 
-    //    cities: ['תל אביב - מזרח', 'חיפה - כרמל ועיר תחתית', 'עין גדי'],
-    //    instructions: 'היכנסו למבנה, נעלו את הדלתות וסגרו את החלונות'
-    // }
-    pikudHaoref.getActiveAlert(function (err, alert) {
+    try {
+        // Get currently active alert
+        const alert = await pikudHaoref.getActiveAlert(options);
+
         // Schedule polling in X millis
         setTimeout(poll, interval);
-
-        // Log errors
-        if (err) {
-            logger.error('Retrieving active alert failed:', err);
-            return;
-        }
 
         // Extract new cities
         alert.cities = extractNewCities(alert.cities);
@@ -56,26 +43,31 @@ var poll = function () {
 
             // Log the alert (if any)
             logger.info(JSON.stringify(alert));
-        }
-        else {
-            /// No current alert
+        } else {
+            // No current alert
             logger.info('There is no currently active alert.');
         }
 
         // Line break for readability
         logger.info('');
-    }, options);
+    } catch (err) {
+        // Schedule polling in X millis
+        setTimeout(poll, interval);
+
+        // Log errors
+        logger.error('Retrieving active alert failed:', err);
+    }
 }
 
 function extractNewCities(alertCities) {
     // Result array
-    var newCities = [];
+    const newCities = [];
 
-    // Get current unix timstamp
-    var now = Math.floor(Date.now() / 1000);
+    // Get current unix timestamp
+    const now = Math.floor(Date.now() / 1000);
 
     // Traverse cities
-    for (var city of alertCities) {
+    for (const city of alertCities) {
         // Haven't notified recently?
         if (!recentlyAlertedCities[city] || recentlyAlertedCities[city] < now - (60 * 3)) {
             // New city

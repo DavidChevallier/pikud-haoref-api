@@ -11,7 +11,8 @@
     "build": "babel src -d dist",
     "predeploy": "npm run build",
     "deploy": "node deployScript.js",
-    "run-example": "node examples/poll.js"
+    "run-example": "node examples/poll.js",
+    "generate-docs": "pandoc README.md -t markdown -o docs/documentation.md"
   },
   "repository": {
     "type": "git",
@@ -29,11 +30,16 @@
   ],
   "homepage": "https://github.com/eladnava/pikud-haoref-api#readme",
   "dependencies": {
-    "co": "^4.6.0",
-    "co-request": "^1.0.0",
-    "psl": "^1.9.0",
-    "request": "^2.88.2",
+    "axios": "^1.7.1",
     "uuid": "^9.0.1",
     "winston": "^3.13.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "eslint": "^9.3.0",
+    "nodemon": "^3.1.0"
+  },
+  "optionalDependencies": {
+    "pandoc-bin": "^0.2.0"
   }
 }
