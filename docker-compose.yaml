@@ -1,10 +1,15 @@
 ---
 services:
   pikud-haoref-api:
-    image: dchevallier/pikud-haoref-api:v3.0.4
+    image: dchevallier/pikud-haoref-api:test_001
     build: .
     container_name: pikud-haoref-api
     hostname: pikud-haoref-api
+    environment:
+      - proxyUrl=value
+      - proxyUser=value
+      - proxyPassword=value
+      - POLL_INTERVAL=5000
     restart: always
     ports:
       - "3000:3000"
