@@ -1,0 +1,11 @@
+---
+services:
+  pikud-haoref-api:
+    image: dchevallier/pikud-haoref-api:3.0.4
+    build: .
+    container_name: pikud-haoref-api
+    hostname: pikud-haoref-api
+    restart: always
+    ports:
+      - "3000:3000"
+...
