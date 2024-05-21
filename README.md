@@ -1,16 +1,16 @@
-pikud-haoref-api
-===================
+# pikud-haoref-api
+
 [![npm version](https://badge.fury.io/js/pikud-haoref-api.svg)](https://www.npmjs.com/package/pikud-haoref-api)
 
 A Node.js wrapper library for Pikud Haoref's unofficial alerts API. It allows you to easily query for the currently active alerts in Israel.
 
-**Note:** This API is only accessible from within Israel. Either run the script on an Israeli machine, or use a proxy.
+> **Note:** This API is only accessible from within Israel. Either run the script on an Israeli machine, or use a proxy.
 
-Usage
----
+## Usage
 
 First, install the package using npm:
-```shell
+
+```bash
 npm install pikud-haoref-api --save
 ```
 
@@ -60,26 +60,28 @@ var poll = function () {
 poll();
 ```
 
-Sample Alert Objects
----
+## Sample Alert Objects
+
 When there is a missle alert:
-```
+
+```json
 { 
     type: 'missiles', 
     cities: ['תל אביב - מזרח', 'חיפה - כרמל ועיר תחתית', 'עין גדי'],
     instructions: 'היכנסו למבנה, נעלו את הדלתות וסגרו את החלונות'
 }
 ```
+
 When there is no active alert:
-```
+
+```json
 { 
     type: 'none', 
     cities: [] 
 }
 ```
 
-Alert Types
----
+## Alert Types
 
 Added in version `3.0.0`:
 
@@ -100,16 +102,15 @@ Added in version `3.0.0`:
 * `terroristInfiltrationDrill`
 * `unknown`
 
-Requirements
----
+## Requirements
+
 * Node.js v4.2.x+ for ES6's `for-of` loop support
 
-Special Thanks
----
+## Special Thanks
 
 * Thanks to  Noam Hashmonai for the Spanish translation
 * Thanks to the developers of the Tzofar app for the map polygon data
 
-License
----
+## License
+
 Apache 2.0
