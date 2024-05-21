@@ -1,17 +1,32 @@
+// Replace with require('logger') if the package resides in node_modules
+const logger = require('../logger'); 
+
 // Replace with require('pikud-haoref-api') if the package resides in node_modules
 var pikudHaoref = require('../index');
 
 // Set polling interval in millis
-var interval = 5000;
+var interval = process.env.POLL_INTERVAL || 5000;
 
 // Keep track of recently alerted cities to avoid notifying multiple times for the same alert
 var recentlyAlertedCities = {};
 
 // Define polling function
-var poll = function() {
+var poll = function () {
     // Optional Israeli proxy if running outside Israeli borders
+
+    // Set proxy URL, user and password from environment variables
+    var proxyUrl = process.env.PROXY_URL;
+    var proxyUser = process.env.PROXY_USER;
+    var proxyPassword = process.env.PROXY_PASSWORD;
+
+    // Construct proxy string
+    var proxy = proxyUrl && proxyUser && proxyPassword ?
+        `http://${encodeURIComponent(proxyUser)}:${encodeURIComponent(proxyPassword)}@${proxyUrl}` :
+        undefined;
+
+    // Construct options object
     var options = {
-        proxy: 'http://user:pass@hostname:port/'
+        proxy: proxy
     };
 
     // Get currently active alert
@@ -27,7 +42,8 @@ var poll = function() {
 
         // Log errors
         if (err) {
-            return console.log('Retrieving active alert failed: ', err);
+            logger.error('Retrieving active alert failed:', err);
+            return;
         }
 
         // Extract new cities
@@ -36,18 +52,18 @@ var poll = function() {
         // Print alert
         if (alert.cities.length > 0) {
             // Alert header
-            console.log('Currently active alert:');
+            logger.info('Currently active alert:');
 
             // Log the alert (if any)
-            console.log(alert);
+            logger.info(JSON.stringify(alert));
         }
         else {
-            // No current alert
-            console.log('There is no currently active alert.');
+            /// No current alert
+            logger.info('There is no currently active alert.');
         }
 
         // Line break for readability
-        console.log();
+        logger.info('');
     }, options);
 }
 
